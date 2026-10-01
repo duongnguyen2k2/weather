@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  
+  <title>Frontend Mentor | Weather app</title>
+
+</head>
+<body>
+  <div>
+    <header>
+      <img src="./assets/images/logo.svg" alt="weather now">
+      <div class="units">
+        <button 
+          aria-expanded="false" 
+          aria-controls="units__panel"
+          type="button"
+          class="units__toggle">
+          <span><img src="./assets/images/icon-units.svg" alt=""></span>
+          <span>Units</span>
+          <span><img src="./assets/images/icon-dropdown.svg" alt=""></span>
+        </button>
+  
+        <!-- panel -->
+        <form 
+          id="units__panel"
+          class="units__panel"
+          hidden
+            >
+          <!-- Switch system -->
+           <button type="button" class="units__switch">
+            Switch to Imperial
+           </button>
+  
+           <!-- Temperature -->
+          <fieldset class="units__group">
+            <legend>Temperature</legend>
+  
+            <label class="units__option">
+              <input
+                type="radio"
+                name="temperature"
+                value="celsius"
+                checked
+              />
+              <span>Celsius (°C)</span>
+            </label>
+  
+            <label class="units__option">
+              <input
+                type="radio"
+                name="temperature"
+                value="fahrenheit"
+              />
+              <span>Fahrenheit (°F)</span>
+            </label>
+          </fieldset>
+          <!-- Wind Speed -->
+          <fieldset class="units__group">
+            <legend>Wind Speed</legend>
+  
+            <label class="units__option">
+              <input
+                type="radio"
+                name="wind-speed"
+                value="kmh"
+                checked
+              />
+              <span>km/h</span>
+            </label>
+  
+            <label class="units__option">
+              <input
+                type="radio"
+                name="wind-speed"
+                value="mph"
+              />
+              <span>mph</span>
+            </label>
+          </fieldset>
+  
+          <!-- Precipitation -->
+          <fieldset class="units__group">
+            <legend>Precipitation</legend>
+  
+            <label class="units__option">
+              <input
+                type="radio"
+                name="precipitation"
+                value="mm"
+                checked
+              />
+              <span>Millimeters (mm)</span>
+            </label>
+  
+            <label class="units__option">
+              <input
+                type="radio"
+                name="precipitation"
+                value="inch"
+              />
+              <span>Inches (in)</span>
+            </label>
+          </fieldset>
+        </form>
+      </div>
+    </header>
+    <main>
+      <h1>How's the sky looking today ?</h1>
+      <form class="search-form">
+        <label for="search-place">Search Place</label>
+          <input 
+          id="search-place" 
+          name="place" 
+          type="text" 
+          placeholder="Search for a place..." 
+          autocomplete="off"
+          role="combobox"
+          aria-expanded="false" 
+          aria-controls="search_box"
+          >
+          <button type="submit">
+            Search
+          </button>
+      </form>
+      <div class="search_box"></div>
+      <div class="error" role="alert" hidden>
+        <img src="./assets/images/icon-error.svg" alt="">
+        <h2>Something went wrong!</h2>
+        <p>We couldn't connect to the server (API error). Please try again in a few moments</p>
+        <button><img src="./assets/images/icon-retry.svg" alt=""> Retry</button>
+      </div>
+      <div class="not-found" role="status">
+      </div>
+      <div class="weather">
+        <section class="weather__current">
+          <div>
+            <h2>Berlin Germany</h2>
+            <time datetime=""></time>
+          </div>
+          <div>
+            <img src="./assets/images/icon-sunny.webp" alt="sunny">
+            <p>20</p>
+          </div>
+        </section>
+        <section class="weather__metrics">
+          <dl>
+            <dt>Feels like</dt>
+            <dd>18</dd>
+          </dl>
+          <dl>
+            <dt>Humidity</dt>
+            <dd>46%</dd>
+          </dl>
+          <dl>
+            <dt>Wind</dt>
+            <dd>14 km/h</dd>
+          </dl>
+          <dl>
+            <dt>Precipitation</dt>
+            <dd>0 mm</dd>
+          </dl>
+        </section>
+        <section class="weather__daily">
+
+        </section>
+        <section class="weather__hourly"></section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
