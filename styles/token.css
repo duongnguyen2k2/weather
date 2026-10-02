@@ -1,0 +1,89 @@
+:root {
+  /* ==========================================================
+     1. Primitive tokens: raw values from style-guide.md.
+        Don't use these directly in blocks, use the semantic ones below.
+     ========================================================== */
+
+  /* Neutral */
+  --neutral-900: hsl(243, 96%, 9%);
+  --neutral-800: hsl(243, 27%, 20%);
+  --neutral-700: hsl(243, 23%, 24%);
+  --neutral-600: hsl(243, 23%, 30%);
+  --neutral-300: hsl(240, 6%, 70%);
+  --neutral-200: hsl(250, 6%, 84%);
+  --neutral-0: hsl(0, 0%, 100%);
+
+  /* Orange */
+  --orange-500: hsl(28, 100%, 52%);
+
+  /* Blue */
+  --blue-500: hsl(233, 67%, 56%);
+  --blue-700: hsl(248, 70%, 36%);
+
+  /* Spacing: the number is the design-file step, the value is in rem (1rem = 16px)
+     so spacing scales together with the user's font-size setting. */
+  --space-100: 0.5rem;   /* 8px */
+  --space-125: 0.625rem; /* 10px */
+  --space-150: 0.75rem;  /* 12px */
+  --space-200: 1rem;     /* 16px */
+  --space-250: 1.25rem;  /* 20px */
+  --space-300: 1.5rem;   /* 24px */
+  --space-400: 2rem;     /* 32px */
+  --space-600: 3rem;     /* 48px */
+  --space-800: 4rem;     /* 64px */
+  --space-1000: 5rem;    /* 80px */
+  --space-1400: 7rem;    /* 112px */
+
+  /* Radius: the number is the real value, in px (a border radius doesn't need to scale) */
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-24: 24px;
+  --radius-full: 999px;
+
+  /* Font family */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  /* Font size (--fs-*): the number is the px value at a 16px root, the value is in rem */
+  --fs-96: 6rem;
+  --fs-52: 3.25rem;
+  --fs-32: 2rem;
+  --fs-28: 1.75rem;
+  --fs-20: 1.25rem;
+  --fs-18: 1.125rem;
+  --fs-16: 1rem;
+  --fs-14: 0.875rem;
+
+  /* Font weight: only the weights that have a font file (see base.css) */
+  --weight-300: 300;
+  --weight-500: 500;
+  --weight-600: 600;
+  --weight-700: 700;
+
+  /* Line height */
+  --leading-tight: 1.1;
+  --leading-normal: 1.5;
+
+  /* Motion */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ==========================================================
+     2. Semantic tokens: what a value is FOR.
+        Blocks use these, so a re-theme only touches this section.
+     ========================================================== */
+
+  --color-bg: var(--neutral-900);             /* page background */
+  --color-surface: var(--neutral-800);        /* cards, panels, inputs, dropdowns */
+  --color-surface-raised: var(--neutral-700); /* rows inside a panel, hovered items */
+  --color-border: var(--neutral-600);
+
+  --color-text: var(--neutral-0);
+  --color-text-muted: var(--neutral-200);     /* labels, dates */
+  --color-text-subtle: var(--neutral-300);    /* group titles, placeholder */
+
+  --color-accent: var(--blue-500);            /* primary button */
+  --color-accent-hover: var(--blue-700);
+  --color-focus: var(--neutral-0);            /* focus ring (design: white 2px) */
+}

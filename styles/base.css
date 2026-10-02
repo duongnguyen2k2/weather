@@ -1,0 +1,147 @@
+/* ==========================================================
+   1. Fonts: static files, the weights match style-guide.md
+   ========================================================== */
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../assets/fonts/DM_Sans/static/DMSans-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/DM_Sans/static/DMSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/DM_Sans/static/DMSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/DM_Sans/static/DMSans-SemiBoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/DM_Sans/static/DMSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/Bricolage_Grotesque/static/BricolageGrotesque-Bold.ttf") format("truetype");
+}
+
+/* ==========================================================
+   2. Reset
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+/* The page is dark: native controls (select popup, scrollbars) follow it */
+html {
+  color-scheme: dark;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form controls don't inherit the font by default */
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+fieldset {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  padding: 0;
+}
+
+/* Classed lists are UI components, not prose: drop the bullets and the indent */
+ul[class],
+ol[class] {
+  padding: 0;
+  list-style: none;
+}
+
+/* Without this, any `display: flex/grid` on a block overrides the [hidden] attribute */
+[hidden] {
+  display: none !important;
+}
+
+/* ==========================================================
+   3. Document
+   ========================================================== */
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-18);
+  font-weight: var(--weight-500);
+  line-height: var(--leading-normal);
+}
+
+h1,
+h2,
+h3 {
+  line-height: var(--leading-tight);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

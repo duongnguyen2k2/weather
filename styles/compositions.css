@@ -1,0 +1,258 @@
+/* ==========================================================
+   compositions.css: CHỈ chứa layout (khung, lưới, khoảng cách).
+   Không có màu, viền, font: những thứ đó thuộc về blocks.css.
+
+   Chiến lược (đã chốt): kết hợp
+   - Khung lớn (.weather): MỘT breakpoint, vì design chỉ có 2 trạng thái.
+   - Các hàng thẻ bên trong: tự thích nghi bằng auto-fit/minmax.
+   - Form search: tự thích nghi bằng flex-wrap.
+   Mobile-first: viết cho mobile trước, media query chỉ thêm khi màn hình rộng.
+   ========================================================== */
+
+
+/* ==========================================================
+   BƯỚC 1: Container của cả trang (.page)
+
+   Cách làm:
+   - inline-size: min(100% - 2*gutter, 76rem) => rộng tối đa 1216px, hẹp hơn
+     thì chừa lề hai bên. margin-inline: auto để căn giữa.
+   - gutter co giãn bằng clamp(): 16px ở mobile -> 32px ở màn hình lớn.
+   - Khoảng cách trên/dưới cũng dùng clamp() theo chiều rộng màn hình.
+
+   Tại sao:
+   - Design 1440px: nội dung rộng 1216px, lề mỗi bên (1440-1216)/2 = 112px.
+     Đặt max-width 1216px thì lề 112px TỰ ĐỘNG có, không cần media query.
+     (Bản nháp cũ dùng max-width 1440px: đó là bề rộng khung design, không phải
+     bề rộng nội dung.)
+   - clamp(min, ưu tiên, max) cho giá trị co giãn mượt, thay cho nhiều media query.
+   - rem thay vì px: tôn trọng cỡ chữ mặc định của người dùng.
+   - Dùng grid + gap để tạo khoảng cách giữa header và main, tránh margin lẻ.
+   ========================================================== */
+.page {
+  --container-max: 76rem; /* 1216px */
+  --gutter: clamp(var(--space-200), 4vw, var(--space-400));
+
+  display: grid;
+  gap: clamp(var(--space-400), 6vw, var(--space-800));
+  inline-size: min(100% - 2 * var(--gutter), var(--container-max));
+  margin-inline: auto;
+  padding-block:
+    clamp(var(--space-200), 4vw, var(--space-600))
+    clamp(var(--space-600), 6vw, var(--space-1000));
+}
+
+
+/* ==========================================================
+   BƯỚC 2: Header (logo bên trái, nút Units bên phải)
+
+   Cách làm: flex + space-between + align-items:center.
+   Tại sao: chỉ có 2 phần tử, cần dàn hai đầu và căn giữa theo chiều dọc.
+   Flex hợp hơn grid vì không cần cột cố định. gap giữ khoảng hở tối thiểu
+   nếu màn hình quá hẹp.
+   ========================================================== */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-200);
+}
+
+
+/* ==========================================================
+   BƯỚC 3: Cột chính (.main): h1, search, thông báo, error, weather
+
+   Cách làm: grid một cột + gap. Khoảng cách mobile 32px, desktop 48px.
+
+   Tại sao:
+   - gap chỉ nằm GIỮA các phần tử, không có margin thừa ở đầu/cuối.
+   - Các phần tử bị [hidden] không chiếm chỗ, nên gap tự co lại khi đổi
+     state (ví dụ error ẩn h1 và search).
+   - Riêng .not-found: nó luôn có trong DOM (là live region, phải có sẵn để
+     screen reader nghe được). Lúc RỖNG nó vẫn là một grid item nên sẽ sinh
+     thêm một khoảng gap trống. Cách xử lý: khi :empty thì position:absolute để
+     rút khỏi luồng layout (nhưng KHÔNG dùng display:none, vì live region bị
+     ẩn display:none thì thông báo không ổn định). Có chữ thì tự trở lại luồng.
+     Lưu ý: :empty chỉ khớp khi không có cả khoảng trắng, nên JS phải xóa bằng
+     textContent = ''.
+   ========================================================== */
+.main {
+  display: grid;
+  gap: clamp(var(--space-400), 5vw, var(--space-600));
+}
+
+.not-found:empty {
+  position: absolute;
+}
+
+
+/* ==========================================================
+   BƯỚC 4: Form search: [ô input] [nút Search]
+
+   Cách làm (tự thích nghi bằng flex-wrap, không media query):
+   - Form rộng tối đa 41rem (656px), căn giữa.
+   - .search-form__field: flex 999 1 20rem. Tức là ưu tiên chiếm hết chỗ trống
+     (grow 999), nền tảng 20rem (320px).
+   - .search-form__submit: flex 1 1 auto. Grow chỉ là 1.
+
+   Tại sao chạy được:
+   - Desktop (656px): 320 + nút (~114) + gap 16 < 656 nên nằm trên MỘT dòng.
+     Chỗ trống chia theo tỷ lệ 999:1 nên ô input giãn ra gần hết (~526px) còn
+     nút gần như giữ nguyên (~114px). Đúng design.
+   - Mobile (343px): 320 + 114 + 16 > 343 nên nút TỰ RỚT xuống dòng. Nút đứng
+     một mình trên dòng nên grow:1 làm nó giãn full-width. Đúng design mobile.
+   - Điểm rớt dòng do nội dung quyết định, không phải con số bạn tự chọn.
+   ========================================================== */
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-200);
+  justify-self: center;
+  inline-size: min(100%, 41rem);
+}
+
+.search-form__field {
+  flex: 999 1 20rem;
+}
+
+.search-form__submit {
+  flex: 1 1 auto;
+}
+
+
+/* ==========================================================
+   BƯỚC 5: Khung weather: 1 cột (mobile) và 2 cột (desktop)
+
+   Cách làm:
+   - Mobile: một cột, các section xếp theo thứ tự trong HTML (current ->
+     metrics -> daily -> hourly), đúng design mobile. Không cần grid-area.
+   - Từ 76rem (1216px): 2 cột. Cột trái co giãn (minmax(0,1fr)), cột phải
+     cố định 24rem (384px, đúng design). grid-template-areas đặt tên vị trí,
+     hourly nằm cột phải và TRẢI QUA CẢ 3 HÀNG của cột trái.
+
+   Tại sao:
+   - minmax(0, 1fr) thay vì 1fr: 1fr thật ra là minmax(auto, 1fr), nội dung dài
+     (ví dụ 7 thẻ daily) có thể đẩy cột phình ra ngoài. min=0 ngăn điều đó.
+   - Con số 76rem KHÔNG chọn bừa, tính từ nội dung:
+       7 thẻ daily x 88px + 6 gap x 16px      = 712px (cột trái tối thiểu để đủ
+                                                 7 thẻ trên một hàng)
+       + gap giữa 2 cột 32px + hourly 384px   = 1128px
+       + lề 2 bên (2 x 32px)                  = 1192px
+       + thanh cuộn dọc trên Windows (~15px)  = 1207px  => làm tròn 76rem
+     Media query tính theo bề rộng viewport CÓ thanh cuộn, còn layout thì
+     không. Đã đo thử: ở 1200px (có thanh cuộn) cột trái chỉ 705px < 712px nên
+     daily bị lệch 6+1. Vì vậy ngưỡng phải cộng thêm phần thanh cuộn.
+     Dưới ngưỡng này 2 cột sẽ quá chật, nên xếp chồng, không có hàng daily bị
+     lệch (5+2, 6+1). Muốn 2 cột sớm hơn thì giảm min của daily rồi tính lại.
+   - Dùng rem trong media query để ngưỡng dịch theo khi người dùng đổi cỡ chữ.
+   - Custom property KHÔNG dùng được trong media query, nên ghi giá trị trực tiếp.
+   - grid-area chỉ khai báo TRONG media query: nếu khai báo ngoài mà không có
+     grid-template-areas tương ứng, trình duyệt sẽ xếp item ra các track ẩn.
+
+   Vấn đề chiều cao của hourly (quan trọng):
+   - Hourly có 24 dòng, cao hơn cột trái (~690px). Nếu để nó tự quyết, nó sẽ
+     kéo giãn các hàng của cột trái (xuất hiện khoảng trống lớn) thay vì cuộn.
+   - Giải pháp: contain: size làm cho hourly "không đóng góp chiều cao" vào việc
+     tính hàng. Chiều cao do cột trái quyết định, hourly chỉ stretch cho đầy rồi
+     tự cuộn bên trong. Chỉ áp dụng ở desktop: ở mobile hourly nằm dưới cùng,
+     nếu có contain: size nó sẽ có chiều cao 0 và biến mất.
+   ========================================================== */
+.weather {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-400);
+}
+
+@media (min-width: 76rem) {
+  .weather {
+    grid-template-columns: minmax(0, 1fr) 24rem;
+    grid-template-areas:
+      "current hourly"
+      "metrics hourly"
+      "daily   hourly";
+  }
+
+  .weather__current { grid-area: current; }
+  .weather__metrics { grid-area: metrics; }
+  .weather__daily   { grid-area: daily; }
+
+  .weather__hourly {
+    grid-area: hourly;
+    contain: size;
+  }
+}
+
+
+/* ==========================================================
+   BƯỚC 6: Hàng metrics (4 thẻ) và daily (7 thẻ)
+
+   Cách làm: repeat(auto-fit, minmax(min(100%, X), 1fr)).
+   - minmax(X, 1fr): mỗi thẻ tối thiểu X, tối đa chia đều chỗ còn lại.
+   - auto-fit: tự tính số cột vừa chỗ, và THU các cột trống để thẻ giãn ra lấp
+     đầy (khác auto-fill giữ cột trống, thẻ sẽ không giãn).
+   - min(100%, X): nếu khung hẹp hơn X (ví dụ 288px ở 320px) thì thẻ không rộng
+     quá khung. Thiếu hàm này sẽ tràn ngang.
+
+   Tại sao chọn số này (tính từ design):
+   - metrics X = 9rem (144px):
+       mobile 343px  -> 2 cột (2x2)     khớp design mobile
+       desktop 720px -> 4 cột           khớp design desktop
+   - daily X = 5.5rem (88px):
+       mobile 343px  -> 3 cột (3+3+1)   khớp design mobile
+       desktop 720px -> 7 cột           khớp design desktop
+   Giới hạn đã biết: ở bề rộng giữa có thể lệch hàng (metrics 3+1 khoảng
+   464-623px). Chấp nhận để đổi lấy việc không cần thêm media query.
+   Gap của metrics co từ 16px lên 24px theo bề rộng (design desktop là 24px).
+   ========================================================== */
+.metrics__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  gap: clamp(var(--space-200), 2vw, var(--space-300));
+}
+
+.daily__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.5rem), 1fr));
+  gap: var(--space-200);
+}
+
+/* Tiêu đề "Daily forecast" cách danh sách 20px (design) */
+.daily {
+  display: grid;
+  gap: var(--space-250);
+}
+
+
+/* ==========================================================
+   BƯỚC 7: Cột hourly: tiêu đề cố định, danh sách cuộn bên trong
+
+   Cách làm:
+   - Section là flex theo cột: hàng đầu (h2 + select) cố định, danh sách
+     chiếm phần còn lại (flex: 1) và overflow-y: auto.
+   - min-block-size: 0 để flex item được phép co nhỏ hơn nội dung (mặc định là
+     auto nên không co được, do đó không cuộn).
+   - Mobile: không có grid quyết định chiều cao nên đặt trần cho danh sách
+     (37rem ~ 592px, vừa 8 dòng như design mobile).
+   - Desktop: bỏ trần, để danh sách lấp đầy chiều cao mà grid cấp (bước 5).
+
+   Tại sao: nếu không có overflow-y trên đúng phần tử cần cuộn và min-height: 0
+   trên cha flex, cả panel sẽ dài ra theo 24 dòng thay vì cuộn.
+   37rem là ước lượng: chỉnh lại khi viết xong chiều cao của .hour-row.
+   ========================================================== */
+.weather__hourly {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+}
+
+.hourly__list {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  max-block-size: 37rem;
+  overflow-y: auto;
+}
+
+@media (min-width: 76rem) {
+  .hourly__list {
+    max-block-size: none;
+  }
+}

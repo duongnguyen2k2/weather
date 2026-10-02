@@ -3,173 +3,320 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <meta name="description" content="Check the current weather, daily and hourly forecast for any place in the world.">
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
+
   <title>Frontend Mentor | Weather app</title>
 
+  <!-- CUBE order: global (token, base) -> composition -> utility -> block -->
+  <link rel="stylesheet" href="./styles/token.css">
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/compositions.css">
+  <link rel="stylesheet" href="./styles/utilities.css">
+  <link rel="stylesheet" href="./styles/blocks.css">
+
+  <!-- type="module" is deferred by default. Modules need a local server (e.g. Live Server), not file:// -->
+  <script type="module" src="./js/main.js"></script>
 </head>
 <body>
-  <div>
-    <header>
-      <img src="./assets/images/logo.svg" alt="weather now">
+  <div class="page">
+
+    <header class="site-header">
+      <img class="site-header__logo" src="./assets/images/logo.svg" alt="Weather Now">
+
       <div class="units">
-        <button 
-          aria-expanded="false" 
-          aria-controls="units__panel"
+        <button
           type="button"
-          class="units__toggle">
-          <span><img src="./assets/images/icon-units.svg" alt=""></span>
+          class="units__toggle"
+          aria-expanded="false"
+          aria-controls="units__panel">
+          <img src="./assets/images/icon-units.svg" alt="">
           <span>Units</span>
-          <span><img src="./assets/images/icon-dropdown.svg" alt=""></span>
+          <img src="./assets/images/icon-dropdown.svg" alt="">
         </button>
-  
-        <!-- panel -->
-        <form 
-          id="units__panel"
-          class="units__panel"
-          hidden
-            >
-          <!-- Switch system -->
-           <button type="button" class="units__switch">
-            Switch to Imperial
-           </button>
-  
-           <!-- Temperature -->
+
+        <!-- Panel: toggled with [hidden]. The checkmark of the selected option is drawn by CSS (input:checked + span) -->
+        <form id="units__panel" class="units__panel" hidden>
+          <button type="button" class="units__switch">Switch to Imperial</button>
+
           <fieldset class="units__group">
             <legend>Temperature</legend>
-  
+
             <label class="units__option">
-              <input
-                type="radio"
-                name="temperature"
-                value="celsius"
-                checked
-              />
-              <span>Celsius (°C)</span>
+              <input class="units__radio" type="radio" name="temperature" value="celsius" checked>
+              <span class="units__label">Celsius (°C)</span>
             </label>
-  
+
             <label class="units__option">
-              <input
-                type="radio"
-                name="temperature"
-                value="fahrenheit"
-              />
-              <span>Fahrenheit (°F)</span>
+              <input class="units__radio" type="radio" name="temperature" value="fahrenheit">
+              <span class="units__label">Fahrenheit (°F)</span>
             </label>
           </fieldset>
-          <!-- Wind Speed -->
+
           <fieldset class="units__group">
             <legend>Wind Speed</legend>
-  
+
             <label class="units__option">
-              <input
-                type="radio"
-                name="wind-speed"
-                value="kmh"
-                checked
-              />
-              <span>km/h</span>
+              <input class="units__radio" type="radio" name="wind-speed" value="kmh" checked>
+              <span class="units__label">km/h</span>
             </label>
-  
+
             <label class="units__option">
-              <input
-                type="radio"
-                name="wind-speed"
-                value="mph"
-              />
-              <span>mph</span>
+              <input class="units__radio" type="radio" name="wind-speed" value="mph">
+              <span class="units__label">mph</span>
             </label>
           </fieldset>
-  
-          <!-- Precipitation -->
+
           <fieldset class="units__group">
             <legend>Precipitation</legend>
-  
+
             <label class="units__option">
-              <input
-                type="radio"
-                name="precipitation"
-                value="mm"
-                checked
-              />
-              <span>Millimeters (mm)</span>
+              <input class="units__radio" type="radio" name="precipitation" value="mm" checked>
+              <span class="units__label">Millimeters (mm)</span>
             </label>
-  
+
             <label class="units__option">
-              <input
-                type="radio"
-                name="precipitation"
-                value="inch"
-              />
-              <span>Inches (in)</span>
+              <input class="units__radio" type="radio" name="precipitation" value="inch">
+              <span class="units__label">Inches (in)</span>
             </label>
           </fieldset>
         </form>
       </div>
     </header>
-    <main>
-      <h1>How's the sky looking today ?</h1>
-      <form class="search-form">
-        <label for="search-place">Search Place</label>
-          <input 
-          id="search-place" 
-          name="place" 
-          type="text" 
-          placeholder="Search for a place..." 
-          autocomplete="off"
-          role="combobox"
-          aria-expanded="false" 
-          aria-controls="search_box"
-          >
-          <button type="submit">
-            Search
-          </button>
-      </form>
-      <div class="search_box"></div>
-      <div class="error" role="alert" hidden>
-        <img src="./assets/images/icon-error.svg" alt="">
-        <h2>Something went wrong!</h2>
-        <p>We couldn't connect to the server (API error). Please try again in a few moments</p>
-        <button><img src="./assets/images/icon-retry.svg" alt=""> Retry</button>
-      </div>
-      <div class="not-found" role="status">
-      </div>
-      <div class="weather">
-        <section class="weather__current">
-          <div>
-            <h2>Berlin Germany</h2>
-            <time datetime=""></time>
-          </div>
-          <div>
-            <img src="./assets/images/icon-sunny.webp" alt="sunny">
-            <p>20</p>
-          </div>
-        </section>
-        <section class="weather__metrics">
-          <dl>
-            <dt>Feels like</dt>
-            <dd>18</dd>
-          </dl>
-          <dl>
-            <dt>Humidity</dt>
-            <dd>46%</dd>
-          </dl>
-          <dl>
-            <dt>Wind</dt>
-            <dd>14 km/h</dd>
-          </dl>
-          <dl>
-            <dt>Precipitation</dt>
-            <dd>0 mm</dd>
-          </dl>
-        </section>
-        <section class="weather__daily">
 
+    <main class="main">
+      <!-- In the API error state, JS also hides this h1 and the search form (see api-error-state design) -->
+      <h1 class="main__title">How’s the sky looking today?</h1>
+
+      <form class="search-form" role="search">
+        <div class="search-form__field">
+          <label class="visually-hidden" for="search-place">Search for a place</label>
+          <img class="search-form__icon" src="./assets/images/icon-search.svg" alt="">
+          <input
+            id="search-place"
+            class="search-form__input"
+            name="place"
+            type="text"
+            placeholder="Search for a place…"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="search-results"
+            aria-autocomplete="list">
+
+          <!-- Popup under the input: shows either the "in progress" row or the suggestions -->
+          <div class="search-form__popup" hidden>
+            <p class="search-form__progress" hidden>
+              <img src="./assets/images/icon-loading.svg" alt="">
+              Search in progress
+            </p>
+            <!-- JS renders <li role="option">City, Country</li> here -->
+            <ul id="search-results" class="search-form__results" role="listbox" aria-label="Search results"></ul>
+          </div>
+        </div>
+
+        <button class="search-form__submit" type="submit">Search</button>
+      </form>
+
+      <!-- Live region that is always in the DOM. JS writes "No search result found!" into it -->
+      <p class="not-found" role="status"></p>
+
+      <!-- API error state. JS moves focus to the heading (tabindex="-1") when it appears -->
+      <div class="error" hidden>
+        <img class="error__icon" src="./assets/images/icon-error.svg" alt="">
+        <h2 class="error__title" tabindex="-1">Something went wrong</h2>
+        <p class="error__text">We couldn’t connect to the server (API error). Please try again in a few moments.</p>
+        <button class="error__retry" type="button">
+          <img src="./assets/images/icon-retry.svg" alt="">
+          Retry
+        </button>
+      </div>
+
+      <!-- Weather content. The markup below is SAMPLE DATA for styling: JS replaces it (and renders skeletons while loading) -->
+      <div class="weather" aria-busy="false">
+        
+        <section class="weather__current current-card" aria-labelledby="current-title">
+          <div class="current-card__place">
+            <h2 id="current-title" class="current-card__city">Berlin, Germany</h2>
+            <p class="current-card__date"><time datetime="2025-08-05">Tuesday, Aug 5, 2025</time></p>
+          </div>
+          <div class="current-card__summary">
+            <img class="current-card__icon" src="./assets/images/icon-sunny.webp" alt="Sunny">
+            <p class="current-card__temp">20°</p>
+          </div>
         </section>
-        <section class="weather__hourly"></section>
+
+        <section class="weather__metrics metrics" aria-labelledby="metrics-title">
+          <h2 id="metrics-title" class="visually-hidden">Current conditions</h2>
+          <dl class="metrics__list">
+            <div class="metric">
+              <dt class="metric__label">Feels Like</dt>
+              <dd class="metric__value">18°</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label">Humidity</dt>
+              <dd class="metric__value">46%</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label">Wind</dt>
+              <dd class="metric__value">14 km/h</dd>
+            </div>
+            <div class="metric">
+              <dt class="metric__label">Precipitation</dt>
+              <dd class="metric__value">0 mm</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="weather__daily daily" aria-labelledby="daily-title">
+          <h2 id="daily-title" class="daily__title">Daily forecast</h2>
+          <ul class="daily__list">
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-05">
+                <span aria-hidden="true">Tue</span>
+                <span class="visually-hidden">Tuesday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-rain.webp" alt="Rain">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>20°</span>
+                <span><span class="visually-hidden">Low </span>14°</span>
+              </p>
+            </li>
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-06">
+                <span aria-hidden="true">Wed</span>
+                <span class="visually-hidden">Wednesday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-drizzle.webp" alt="Drizzle">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>21°</span>
+                <span><span class="visually-hidden">Low </span>15°</span>
+              </p>
+            </li>
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-07">
+                <span aria-hidden="true">Thu</span>
+                <span class="visually-hidden">Thursday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-sunny.webp" alt="Sunny">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>24°</span>
+                <span><span class="visually-hidden">Low </span>14°</span>
+              </p>
+            </li>
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-08">
+                <span aria-hidden="true">Fri</span>
+                <span class="visually-hidden">Friday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-partly-cloudy.webp" alt="Partly cloudy">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>25°</span>
+                <span><span class="visually-hidden">Low </span>13°</span>
+              </p>
+            </li>
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-09">
+                <span aria-hidden="true">Sat</span>
+                <span class="visually-hidden">Saturday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-storm.webp" alt="Thunderstorm">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>21°</span>
+                <span><span class="visually-hidden">Low </span>15°</span>
+              </p>
+            </li>
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-10">
+                <span aria-hidden="true">Sun</span>
+                <span class="visually-hidden">Sunday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-snow.webp" alt="Snow">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>25°</span>
+                <span><span class="visually-hidden">Low </span>16°</span>
+              </p>
+            </li>
+            <li class="day-card">
+              <time class="day-card__day" datetime="2025-08-11">
+                <span aria-hidden="true">Mon</span>
+                <span class="visually-hidden">Monday</span>
+              </time>
+              <img class="day-card__icon" src="./assets/images/icon-fog.webp" alt="Fog">
+              <p class="day-card__temps">
+                <span><span class="visually-hidden">High </span>24°</span>
+                <span><span class="visually-hidden">Low </span>15°</span>
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="weather__hourly hourly" aria-labelledby="hourly-title">
+          <div class="hourly__header">
+            <h2 id="hourly-title" class="hourly__title">Hourly forecast</h2>
+            <label class="visually-hidden" for="hourly-day">Day</label>
+            <!-- Native select. JS regenerates the options from the forecast dates -->
+            <select id="hourly-day" class="hourly__select" name="day">
+              <option value="monday">Monday</option>
+              <option value="tuesday" selected>Tuesday</option>
+              <option value="wednesday">Wednesday</option>
+              <option value="thursday">Thursday</option>
+              <option value="friday">Friday</option>
+              <option value="saturday">Saturday</option>
+              <option value="sunday">Sunday</option>
+            </select>
+          </div>
+
+          <!-- This list is the scroll container: tabindex="0" lets keyboard users scroll it -->
+          <ul class="hourly__list" tabindex="0" aria-labelledby="hourly-title">
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-overcast.webp" alt="Overcast">
+              <time class="hour-row__time" datetime="2025-08-05T15:00">3 PM</time>
+              <p class="hour-row__temp">20°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-partly-cloudy.webp" alt="Partly cloudy">
+              <time class="hour-row__time" datetime="2025-08-05T16:00">4 PM</time>
+              <p class="hour-row__temp">20°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-sunny.webp" alt="Sunny">
+              <time class="hour-row__time" datetime="2025-08-05T17:00">5 PM</time>
+              <p class="hour-row__temp">20°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-overcast.webp" alt="Overcast">
+              <time class="hour-row__time" datetime="2025-08-05T18:00">6 PM</time>
+              <p class="hour-row__temp">19°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-snow.webp" alt="Snow">
+              <time class="hour-row__time" datetime="2025-08-05T19:00">7 PM</time>
+              <p class="hour-row__temp">18°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-fog.webp" alt="Fog">
+              <time class="hour-row__time" datetime="2025-08-05T20:00">8 PM</time>
+              <p class="hour-row__temp">18°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-overcast.webp" alt="Overcast">
+              <time class="hour-row__time" datetime="2025-08-05T21:00">9 PM</time>
+              <p class="hour-row__temp">17°</p>
+            </li>
+            <li class="hour-row">
+              <img class="hour-row__icon" src="./assets/images/icon-overcast.webp" alt="Overcast">
+              <time class="hour-row__time" datetime="2025-08-05T22:00">10 PM</time>
+              <p class="hour-row__temp">17°</p>
+            </li>
+          </ul>
+        </section>
       </div>
     </main>
+
+    <!-- Always in the DOM so screen readers pick up changes: "Loading weather…", "Weather loaded for Berlin", ... -->
+    <p class="visually-hidden" role="status" id="status"></p>
   </div>
 </body>
 </html>

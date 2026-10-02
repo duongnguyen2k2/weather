@@ -1,0 +1,77 @@
+/* Hidden on screen, still read by screen readers.
+   Never use display: none / hidden for this: those remove the element from the accessibility tree. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Text presets */
+.preset-1 {
+  font-size: var(--fs-96);
+  letter-spacing: -2px;
+  font-weight: var(--weight-600);
+  font-style: italic;
+  line-height: var(--leading-tight);
+}
+
+.preset-2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-52);
+  letter-spacing: -2px;
+  font-weight: var(--weight-700);
+  line-height: var(--leading-tight);
+}
+
+.preset-3 {
+  font-size: var(--fs-32);
+  letter-spacing: -2px;
+  font-weight: var(--weight-300);
+  line-height: var(--leading-tight);
+}
+
+.preset-4 {
+  font-family: var(--font-display);
+  font-size: var(--fs-28);
+  letter-spacing: -2px;
+  font-weight: var(--weight-700);
+  line-height: var(--leading-tight);
+}
+
+.preset-5 {
+  font-size: var(--fs-20);
+  letter-spacing: -2px;
+  font-weight: var(--weight-600);
+  line-height: var(--leading-tight);
+}
+
+.preset-5-medium {
+  font-size: var(--fs-20);
+  letter-spacing: -2px;
+  font-weight: var(--weight-500);
+  line-height: var(--leading-tight);
+}
+
+.preset-6 {
+  font-size: var(--fs-18);
+  letter-spacing: -2px;
+  font-weight: var(--weight-500);
+}
+
+.preset-7 {
+  font-size: var(--fs-16);
+  letter-spacing: -2px;
+  font-weight: var(--weight-500);
+}
+
+.preset-8 {
+  font-size: var(--fs-14);
+  letter-spacing: -2px;
+  font-weight: var(--weight-500);
+}
