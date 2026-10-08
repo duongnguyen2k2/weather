@@ -22,6 +22,7 @@
 
   /* Spacing: the number is the design-file step, the value is in rem (1rem = 16px)
      so spacing scales together with the user's font-size setting. */
+  --space-50: 0.25rem;   /* 4px */
   --space-100: 0.5rem;   /* 8px */
   --space-125: 0.625rem; /* 10px */
   --space-150: 0.75rem;  /* 12px */
@@ -68,6 +69,9 @@
   --duration-fast: 150ms;
   --duration-base: 250ms;
   --ease-out: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Layering: popups that must sit above the weather cards (units panel, search results) */
+  --z-dropdown: 10;
 
   /* ==========================================================
      2. Semantic tokens: what a value is FOR.
